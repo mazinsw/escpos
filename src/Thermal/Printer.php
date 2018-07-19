@@ -53,12 +53,12 @@ class Printer
 
     /**
      * @param int $number drawer id
-     * @param int $on time in milliseconds that activate the drawer
-     * @param int $off time in milliseconds that deactivate the drawer
+     * @param int $on_time time in milliseconds that activate the drawer
+     * @param int $off_time time in milliseconds that deactivate the drawer
      */
-    public function drawer($number = self::DRAWER_1, $on = 120, $off = 240)
+    public function drawer($number = self::DRAWER_1, $on_time = 120, $off_time = 240)
     {
-        $this->model->getProfile()->drawer($number, $on, $off);
+        $this->model->getProfile()->drawer($number, $on_time, $off_time);
         return $this;
     }
 
@@ -68,7 +68,7 @@ class Printer
         return $this;
     }
 
-    public function writeln($text, $styles = [], $align = null)
+    public function writeln($text, $styles = 0, $align = self::ALIGN_LEFT)
     {
         if (strlen($text) > 0) {
             $this->write($text, $styles, $align);

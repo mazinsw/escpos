@@ -4,6 +4,7 @@ namespace Thermal\Profile;
 
 use Thermal\Printer;
 use Thermal\Buffer\Encoding;
+use Thermal\Connection\Connection;
 
 abstract class Profile
 {
@@ -41,6 +42,7 @@ abstract class Profile
 
     public function setColumns($columns)
     {
+        $font = ['name' => 'Unknow'];
         // search for font with more columns
         // font list must be sorted by their number of columns
         foreach ($this->capabilities['fonts'] as $font) {
@@ -115,6 +117,7 @@ abstract class Profile
     public function setFont($font)
     {
         $found = false;
+        $_font = ['name' => 'Unknow'];
         foreach ($this->capabilities['fonts'] as $_font) {
             if ($_font['name'] == $font['name']) {
                 $found = true;
@@ -138,7 +141,7 @@ abstract class Profile
         return $this;
     }
 
-    protected function fontChanged($newFont, $oldFont)
+    protected function fontChanged($new_font, $old_font)
     {
         // ensure current codepage
         $this->setCodePage($this->encoding->getCodePage(true));
@@ -147,7 +150,10 @@ abstract class Profile
 
     public function getConnection()
     {
-        return $this->connection;
+        if ($this->connection instanceof Connection) {
+            return $this->connection;
+        }
+        throw new \Exception('Connection must be set before priting', 500);
     }
 
     public function setConnection($connection)
@@ -195,9 +201,9 @@ abstract class Profile
 
     abstract public function feed($lines);
     abstract public function cutter($mode);
-    abstract public function drawer($number, $on, $off);
+    abstract public function drawer($number, $on_time, $off_time);
 
     abstract protected function setAlignment($align);
-    abstract protected function setMode($mode, $on);
-    abstract protected function setStyle($style, $on);
+    abstract protected function setMode($mode, $enable);
+    abstract protected function setStyle($style, $enable);
 }

@@ -6,6 +6,14 @@ use Thermal\Model;
 
 class EscPOSTest extends \PHPUnit_Framework_TestCase
 {
+    public function testTryPrintWithoutConnection()
+    {
+        $model = new Model('TM-T81');
+        $profile = $model->getProfile();
+        $this->setExpectedException('\Exception');
+        $profile->buzzer();
+    }
+
     public function testGetDefaultCodePage()
     {
         $model = new Model('TM-T81');

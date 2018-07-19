@@ -6,12 +6,12 @@ use Thermal\Printer;
 
 class EscBema extends EscPOS
 {
-    protected function setStyle($style, $on)
+    protected function setStyle($style, $enable)
     {
         if ($this->getFont()['name'] != 'Font C') {
-            return parent::setStyle($style, $on);
+            return parent::setStyle($style, $enable);
         }
-        if ($on) {
+        if ($enable) {
             // enable styles
             if (Printer::STYLE_BOLD == $style) {
                 $this->getConnection()->write("\eE");
@@ -24,7 +24,7 @@ class EscBema extends EscPOS
                 return $this;
             }
         }
-        return parent::setStyle($style, $on);
+        return parent::setStyle($style, $enable);
     }
 
     public function buzzer()
@@ -41,10 +41,10 @@ class EscBema extends EscPOS
     /**
      * @param int $number drawer id
      */
-    public function drawer($number, $on, $off)
+    public function drawer($number, $on_time, $off_time)
     {
         if ($this->getFont()['name'] != 'Font C') {
-            return parent::drawer($number, $on, $off);
+            return parent::drawer($number, $on_time, $off_time);
         }
         $index = [
             Printer::DRAWER_1 => "v",
@@ -56,19 +56,19 @@ class EscBema extends EscPOS
                 404
             );
         }
-        $on = max(min((int)($on / 2), 255), 50);
-        $this->getConnection()->write("\e" . $index[$number] . chr($on));
+        $on_time = max(min($on_time, 255), 50);
+        $this->getConnection()->write("\e" . $index[$number] . chr($on_time));
         return $this;
     }
 
-    protected function fontChanged($newFont, $oldFont)
+    protected function fontChanged($new_font, $old_font)
     {
         // columns define the command set: ESC/Bema or ESC/POS
-        if ($newFont['name'] == 'Font C') {
+        if ($new_font['name'] == 'Font C') {
             $this->getConnection()->write("\x1d\xf950");
             return $this;
         }
         $this->getConnection()->write("\x1d\xf951");
-        return parent::fontChanged($newFont, $oldFont);
+        return parent::fontChanged($new_font, $old_font);
     }
 }

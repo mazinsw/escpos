@@ -16,9 +16,9 @@ class EscPOS extends Profile
         $this->getConnection()->write($cmd[$align]);
     }
 
-    protected function setStyle($style, $on)
+    protected function setStyle($style, $enable)
     {
-        if ($on) {
+        if ($enable) {
             // enable styles
             if (Printer::STYLE_CONDENSED == $style) {
                 $this->getConnection()->write("\e\x0f");
@@ -43,7 +43,7 @@ class EscPOS extends Profile
         }
     }
 
-    protected function setMode($mode, $on)
+    protected function setMode($mode, $enable)
     {
         $byte = 0b00000000; // keep Font A selected
         if ($this->getFont()['name'] == 'Font B') {
@@ -56,7 +56,7 @@ class EscPOS extends Profile
         if (Printer::STYLE_DOUBLE_WIDTH & $mode) {
             $byte |= 0b00100000;
         }
-        if ($on) {
+        if ($enable) {
             $mask = 0b00110001;
         } else {
             $mask = 0b00000001;
@@ -98,7 +98,7 @@ class EscPOS extends Profile
     /**
      * @param int $number drawer id
      */
-    public function drawer($number, $on, $off)
+    public function drawer($number, $on_time, $off_time)
     {
         $index = [
             Printer::DRAWER_1 => 0,
@@ -110,19 +110,19 @@ class EscPOS extends Profile
                 404
             );
         }
-        $on = min((int)($on / 2), 255);
-        $off = min((int)($off / 2), 255);
-        $this->getConnection()->write("\ep" . chr($index[$number]) . chr($on) . chr($off));
+        $on_time = min((int)($on_time / 2), 255);
+        $off_time = min((int)($off_time / 2), 255);
+        $this->getConnection()->write("\ep" . chr($index[$number]) . chr($on_time) . chr($off_time));
         return $this;
     }
 
-    protected function fontChanged($newFont, $oldFont)
+    protected function fontChanged($new_font, $old_font)
     {
-        if ($newFont['name'] == 'Font A') {
+        if ($new_font['name'] == 'Font A') {
             $this->getConnection()->write("\eM\x00");
-        } elseif ($newFont['name'] == 'Font B') {
+        } elseif ($new_font['name'] == 'Font B') {
             $this->getConnection()->write("\eM\x01");
         }
-        return parent::fontChanged($newFont, $oldFont);
+        return parent::fontChanged($new_font, $old_font);
     }
 }
