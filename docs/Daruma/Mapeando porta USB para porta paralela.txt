@@ -1,0 +1,10 @@
+Acesse:
+Menu Iniciar->Dispositivos e Impressoras
+clique em "Adicionar uma impressora"
+clique em "Adicionar uma impressora local"
+selecione "COM3: (Porta serial)"
+Selecione "Generic" e "Generic only text"
+clique com o botão direito sobre a impressora
+e em "Propriedades da impressora"
+na aba porta, marque a caixa "Ativar pool de impressão"
+marque as caixas na lista: LPT1, USB001, USB002, ...

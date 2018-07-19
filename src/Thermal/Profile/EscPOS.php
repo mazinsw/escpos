@@ -1,0 +1,128 @@
+<?php
+
+namespace Thermal\Profile;
+
+use Thermal\Printer;
+
+class EscPOS extends Profile
+{
+    protected function setAlignment($align)
+    {
+        $cmd = [
+            Printer::ALIGN_LEFT => "\ea0",
+            Printer::ALIGN_CENTER => "\ea1",
+            Printer::ALIGN_RIGHT => "\ea2"
+        ];
+        $this->getConnection()->write($cmd[$align]);
+    }
+
+    protected function setStyle($style, $on)
+    {
+        if ($on) {
+            // enable styles
+            if (Printer::STYLE_CONDENSED == $style) {
+                $this->getConnection()->write("\e\x0f");
+            } elseif (Printer::STYLE_BOLD == $style) {
+                $this->getConnection()->write("\eE1");
+            } elseif (Printer::STYLE_ITALIC == $style) {
+                $this->getConnection()->write("\e4");
+            } elseif (Printer::STYLE_UNDERLINE == $style) {
+                $this->getConnection()->write("\e-1");
+            }
+        } else {
+            // disable styles
+            if (Printer::STYLE_UNDERLINE == $style) {
+                $this->getConnection()->write("\e-0");
+            } elseif (Printer::STYLE_ITALIC == $style) {
+                $this->getConnection()->write("\e5");
+            } elseif (Printer::STYLE_BOLD == $style) {
+                $this->getConnection()->write("\eE0");
+            } elseif (Printer::STYLE_CONDENSED == $style) {
+                $this->getConnection()->write("\x12");
+            }
+        }
+    }
+
+    protected function setMode($mode, $on)
+    {
+        $byte = 0b00000000; // keep Font A selected
+        if ($this->getFont()['name'] == 'Font B') {
+            $byte |= 0b00000001; // keep Font B selected
+        }
+        $before = $byte;
+        if (Printer::STYLE_DOUBLE_HEIGHT & $mode) {
+            $byte |= 0b00010000;
+        }
+        if (Printer::STYLE_DOUBLE_WIDTH & $mode) {
+            $byte |= 0b00100000;
+        }
+        if ($on) {
+            $mask = 0b00110001;
+        } else {
+            $mask = 0b00000001;
+        }
+        if ($before != $byte) {
+            $this->getConnection()->write("\e!" . chr($byte & $mask));
+        }
+    }
+
+    public function feed($lines)
+    {
+        if ($lines > 1) {
+            $count = (int)($lines / 255);
+            $cmd = \str_repeat("\ed" . chr(min($lines, 255)), $count);
+            $remaining = $lines - $count * 255;
+            if ($remaining > 0) {
+                $cmd .= "\ed" . chr($remaining);
+            }
+            $this->getConnection()->write($cmd);
+        } else {
+            $this->getConnection()->write("\n");
+        }
+        return $this;
+    }
+
+    public function buzzer()
+    {
+        $this->getConnection()->write("\x07");
+        return $this;
+    }
+
+    public function cutter($mode)
+    {
+        // only partial cut
+        $this->getConnection()->write("\em");
+        return $this;
+    }
+
+    /**
+     * @param int $number drawer id
+     */
+    public function drawer($number, $on, $off)
+    {
+        $index = [
+            Printer::DRAWER_1 => 0,
+            Printer::DRAWER_2 => 1
+        ];
+        if (!isset($index[$number])) {
+            throw new \Exception(
+                sprintf('Drawer %d not available for printer "%s"', $this->getName(), intval($number)),
+                404
+            );
+        }
+        $on = min((int)($on / 2), 255);
+        $off = min((int)($off / 2), 255);
+        $this->getConnection()->write("\ep" . chr($index[$number]) . chr($on) . chr($off));
+        return $this;
+    }
+
+    protected function fontChanged($newFont, $oldFont)
+    {
+        if ($newFont['name'] == 'Font A') {
+            $this->getConnection()->write("\eM\x00");
+        } elseif ($newFont['name'] == 'Font B') {
+            $this->getConnection()->write("\eM\x01");
+        }
+        return parent::fontChanged($newFont, $oldFont);
+    }
+}
