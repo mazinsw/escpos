@@ -70,13 +70,6 @@ return [
                 'CP866' => "\et\x11",
                 'CP852' => "\et\x12",
                 'CP858' => "\et\x13"
-            ],
-            'graphics' => [
-                'mode' => 'bit',
-                'open' => "\e3\x10",
-                'cmd' => "\e*!",
-                'line' => "\eJ\x00",
-                'close' => "\e2"
             ]
         ],
         'escbema' => [

@@ -199,6 +199,27 @@ abstract class Profile
         return $this;
     }
 
+    public function draw($image, $align)
+    {
+        if ($align !== null) {
+            $this->setAlignment($align);
+        }
+        $width = $image->getWidth();
+        $low = $width & 0xFF;
+        $high = ($width >> 8) & 0xFF;
+        $this->getConnection()->write("\e3\x10");
+        for ($i=0; $i < $image->getLines(); $i++) {
+            $data = $image->getLineData($i);
+            $this->getConnection()->write("\e*\x21" . chr($low) . chr($high) . $data . "\eJ\x00");
+        }
+        $this->getConnection()->write("\e2");
+        // reset align to left
+        if ($align !== null && $align != Printer::ALIGN_LEFT) {
+            $this->setAlignment(Printer::ALIGN_LEFT);
+        }
+        return $this;
+    }
+
     abstract public function feed($lines);
     abstract public function cutter($mode);
     abstract public function drawer($number, $on_time, $off_time);

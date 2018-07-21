@@ -62,6 +62,12 @@ class Printer
         return $this;
     }
 
+    public function draw($image, $align = self::ALIGN_LEFT)
+    {
+        $this->model->getProfile()->draw($image, $align);
+        return $this;
+    }
+
     public function write($text, $styles = 0, $align = self::ALIGN_LEFT)
     {
         $this->model->getProfile()->write($text, $styles, $align);

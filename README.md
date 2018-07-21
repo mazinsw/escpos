@@ -45,7 +45,7 @@ echo $connection->getBuffer();
 - Mbstring extension
 
 ## License
-Prease see [license file](/LICENSE.txt) for more information.
+Please see [license file](/LICENSE.txt) for more information.
 
 [ico-version]: https://poser.pugx.org/mazinsw/escpos/version
 [ico-travis]: https://api.travis-ci.org/mazinsw/escpos.svg

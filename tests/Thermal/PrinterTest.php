@@ -4,6 +4,8 @@ namespace Thermal;
 
 use Thermal\Connection\Buffer;
 
+use Thermal\Graphics\Image;
+
 class PrinterTest extends \PHPUnit_Framework_TestCase
 {
     private $model;
@@ -83,6 +85,18 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
         );
         $this->setExpectedException('\Exception');
         $this->printer->drawer(3);
+    }
+
+    public function testDraw()
+    {
+        $this->connection->clear();
+        $image_path = dirname(__DIR__) . '/resources/sample.jpg';
+        $image = new Image($image_path);
+        $this->printer->draw($image, Printer::ALIGN_CENTER);
+        $this->assertEquals(
+            self::getExpectedBuffer('draw_MP-4200_TH', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
     }
 
     public function testDrawerESCPOS()
