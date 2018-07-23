@@ -10,8 +10,8 @@ class BayerOrdered implements Filter
      * Convert an image resource to black and white aplying dither.
      * The original image resource will not be changed, a new image resource will be created.
      *
-     * @param ImageResource $image The source image resource
-     * @return ImageResource The black and white image resource
+     * @param \resource $image The source image resource
+     * @return \resource The black and white image resource
      */
     public function process($image)
     {
@@ -19,7 +19,7 @@ class BayerOrdered implements Filter
         $height = imagesy($image);
         $new_image = imagecreatetruecolor($width, $height);
         // sets background to black
-        $black = imagecolorallocate($new_image, 0, 0, 0);
+        imagecolorallocate($new_image, 0, 0, 0);
         $white = imagecolorallocate($new_image, 255, 255, 255);
         $pattern = [
             [ 15, 195,  60, 240],

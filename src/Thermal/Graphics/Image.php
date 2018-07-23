@@ -2,9 +2,6 @@
 
 namespace Thermal\Graphics;
 
-use Thermal\Printer;
-use Thermal\Buffer\Encoding;
-use Thermal\Connection\Connection;
 use Thermal\Graphics\Filter\FloydSteinberg;
 
 class Image
@@ -49,8 +46,7 @@ class Image
      *
      * @param string $filename The filename to load from
      * @param Filter $filter filter process
-     * @throws Exception if the image format is not supported,
-     *  or the file cannot be opened.
+     * @throws \Exception if the image format is not supported or the file cannot be opened.
      */
     protected function loadImage($filename, $filter)
     {
@@ -80,10 +76,9 @@ class Image
     /**
      * Load an image from disk, into memory, using GD.
      *
-     * @param string $filename The filename to load from
+     * @param array $data Info array with name and data keys
      * @param Filter $filter filter process
-     * @throws Exception if the image format is not supported,
-     *  or the file cannot be opened.
+     * @throws \Exception if the image format is not supported or the file cannot be opened.
      */
     protected function loadImageData($data, $filter)
     {
@@ -100,7 +95,7 @@ class Image
     /**
      * Load actual image pixels from GD resource.
      *
-     * @param resource $image GD resource to use
+     * @param \resource $image GD resource to use
      */
     private function readImage($image)
     {
@@ -114,17 +109,17 @@ class Image
         $this->lines = (int)($height / $bits);
         $pos = 0;
         $data = str_repeat("\x00", $width * $height / 8);
-        for ($by = 0; $by < $img_height; $by += $bits) {
-            for ($x = 0; $x < $width; $x++) {
+        for ($offset_y = 0; $offset_y < $img_height; $offset_y += $bits) {
+            for ($img_x = 0; $img_x < $width; $img_x++) {
                 // loop slices
                 for ($s = 0; $s < $slices; $s++) {
                     $slice = 0b00000000;
                     for ($bit = 0; $bit < 8; $bit++) {
-                        $y = $by + $s * 8 + $bit;
-                        if ($y >= $img_height) {
+                        $img_y = $offset_y + $s * 8 + $bit;
+                        if ($img_y >= $img_height) {
                             break;
                         }
-                        $color = imagecolorat($image, $x, $y);
+                        $color = imagecolorat($image, $img_x, $img_y);
                         $alpha = ($color >> 24) & 0xFF;
                         $red = ($color >> 16) & 0xFF;
                         $green = ($color >> 8) & 0xFF;

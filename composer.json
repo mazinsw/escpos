@@ -18,9 +18,11 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
+        "ext-imagick": "*",
         "phpunit/phpunit": "5.*",
         "scrutinizer/ocular": "@stable",
-        "squizlabs/php_codesniffer": "@stable"
+        "squizlabs/php_codesniffer": "@stable",
+        "lupka/phpunit-compare-images": "^1.0"
     },
     "autoload": {
         "psr-4": {
