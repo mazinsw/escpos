@@ -6,6 +6,20 @@ use Thermal\PrinterTest;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
+    public static function extractColors($image)
+    {
+        $colors = [];
+        $width = imagesx($image);
+        $height = imagesy($image);
+        for ($y = 0; $y < $height; $y++) {
+            for ($x = 0; $x < $width; $x++) {
+                $color = imagecolorsforindex($image, imagecolorat($image, $x, $y));
+                $colors[] = $color;
+            }
+        }
+        return $colors;
+    }
+
     public function testCreateFromData()
     {
         $image_path = dirname(dirname(__DIR__)) . '/resources/sample.jpg';
