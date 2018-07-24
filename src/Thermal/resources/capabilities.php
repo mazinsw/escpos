@@ -23,8 +23,8 @@ return [
         'IM402' => 'diebold',
         'IM433' => 'diebold',
         'IM453' => 'diebold',
-        'IM833' => 'diebold',
-        'TSP-143' => [
+        'TSP-143' => 'diebold',
+        'IM833' => [
             'profile' => 'diebold',
             'name' => 'Mecaf Perfecta'
         ],
