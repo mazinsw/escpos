@@ -41,7 +41,6 @@ class EscPOSTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $model = new Model([
             'profile' => 'escpos',
-            'name' => 'Custom',
             'codepage' => 'UTF-8',
             'columns' => 48,
             'fonts' => [

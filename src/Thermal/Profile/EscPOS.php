@@ -97,6 +97,8 @@ class EscPOS extends Profile
 
     /**
      * @param int $number drawer id
+     * @param int $on_time time in milliseconds that activate the drawer
+     * @param int $off_time time in milliseconds that deactivate the drawer
      */
     public function drawer($number, $on_time, $off_time)
     {

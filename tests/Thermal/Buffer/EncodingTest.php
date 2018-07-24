@@ -24,15 +24,15 @@ class EncodingTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCodePage()
     {
-        $encoding = new Encoding('CP1252');
-        $this->assertEquals('CP1252', $encoding->getCodePage(true));
+        $encoding = new Encoding('Windows-1252');
+        $this->assertEquals('Windows-1252', $encoding->getCodePage());
     }
 
     public function testEncode()
     {
-        $encoding = new Encoding('CP1252');
+        $encoding = new Encoding('Windows-1252');
         $this->assertEquals(
-            PrinterTest::getExpectedBuffer('CP1252_text.txt', $encoding->encode('AçáéíU', 'UTF-8')),
+            PrinterTest::getExpectedBuffer('Windows-1252_text.txt', $encoding->encode('AçáéíU', 'UTF-8')),
             $encoding->encode('AçáéíU', 'UTF-8')
         );
         $encoding->setCodePage('CP850');

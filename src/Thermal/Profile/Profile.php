@@ -27,7 +27,13 @@ abstract class Profile
 
     public function getName()
     {
-        return $this->capabilities['name'];
+        $name = isset($this->capabilities['name']) ? $this->capabilities['name'] : $this->capabilities['model'];
+        return $this->capabilities['brand'] . ' ' . $name;
+    }
+
+    public function getEncoding()
+    {
+        return $this->encoding;
     }
 
     public function getDefaultColumns()
@@ -79,7 +85,7 @@ abstract class Profile
 
     public function getCodePages()
     {
-        return array_keys($this->capabilities['profile']['codepages']);
+        return array_keys($this->capabilities['codepages']);
     }
 
     public function getDefaultCodePage()
@@ -89,7 +95,7 @@ abstract class Profile
 
     protected function checkCodePage($codepage)
     {
-        if (!isset($this->capabilities['profile']['codepages'][$codepage])) {
+        if (!isset($this->capabilities['codepages'][$codepage])) {
             throw new \Exception(
                 sprintf(
                     'Codepage "%s" not supported for printer "%s"',
@@ -104,9 +110,9 @@ abstract class Profile
 
     public function setCodePage($codepage)
     {
-        $this->encoding->setCodePage($codepage);
+        $this->getEncoding()->setCodePage($codepage);
         $this->checkCodePage($codepage);
-        $this->getConnection()->write($this->capabilities['profile']['codepages'][$codepage]);
+        $this->getConnection()->write($this->capabilities['codepages'][$codepage]);
     }
 
     public function getFont()
@@ -144,7 +150,7 @@ abstract class Profile
     protected function fontChanged($new_font, $old_font)
     {
         // ensure current codepage
-        $this->setCodePage($this->encoding->getCodePage(true));
+        $this->setCodePage($this->getEncoding()->getCodePage());
         return $this;
     }
 
@@ -164,9 +170,9 @@ abstract class Profile
 
     public function initialize()
     {
-        if (isset($this->capabilities['profile']['initialize'])) {
+        if (isset($this->capabilities['initialize'])) {
             // ensure defaults
-            $this->getConnection()->write($this->capabilities['profile']['initialize']);
+            $this->getConnection()->write($this->capabilities['initialize']);
         }
         // ensure default codepage
         $this->setCodePage($this->getDefaultCodePage());
@@ -186,7 +192,7 @@ abstract class Profile
         $this->setStyle(Printer::STYLE_BOLD & $styles, true);
         $this->setStyle(Printer::STYLE_ITALIC & $styles, true);
         $this->setStyle(Printer::STYLE_UNDERLINE & $styles, true);
-        $this->getConnection()->write($this->encoding->encode($text, 'UTF-8'));
+        $this->getConnection()->write($this->getEncoding()->encode($text, 'UTF-8'));
         $this->setStyle(Printer::STYLE_UNDERLINE & $styles, false);
         $this->setStyle(Printer::STYLE_ITALIC & $styles, false);
         $this->setStyle(Printer::STYLE_BOLD & $styles, false);
@@ -222,6 +228,11 @@ abstract class Profile
 
     abstract public function feed($lines);
     abstract public function cutter($mode);
+    /**
+     * @param int $number drawer id
+     * @param int $on_time time in milliseconds that activate the drawer
+     * @param int $off_time time in milliseconds that deactivate the drawer
+     */
     abstract public function drawer($number, $on_time, $off_time);
 
     abstract protected function setAlignment($align);

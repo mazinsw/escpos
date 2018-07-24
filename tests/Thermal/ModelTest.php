@@ -28,7 +28,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     {
         $profile = new EscPOS([
             'profile' => 'escpos',
-            'name' => 'Custom',
+            'model' => 'Custom',
+            'brand' => 'Unknow',
             'codepage' => 'UTF-8',
             'columns' => 32,
             'fonts' => [
@@ -40,14 +41,15 @@ class ModelTest extends \PHPUnit_Framework_TestCase
         ]);
         $model = new Model($profile);
         $this->assertEquals('UTF-8', $model->getProfile()->getDefaultCodePage());
-        $this->assertEquals('Custom', $model->getName());
+        $this->assertEquals('Unknow Custom', $model->getName());
     }
 
     public function testExtendCapabilities()
     {
         $model = new Model([
             'profile' => 'escpos',
-            'name' => 'Custom',
+            'model' => 'Custom',
+            'brand' => 'Unknow',
             'codepage' => 'UTF-8',
             'columns' => 32,
             'fonts' => [
@@ -58,6 +60,6 @@ class ModelTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
         $this->assertEquals('UTF-8', $model->getProfile()->getDefaultCodePage());
-        $this->assertEquals('Custom', $model->getName());
+        $this->assertEquals('Unknow Custom', $model->getName());
     }
 }
