@@ -142,16 +142,21 @@ abstract class Profile
         }
         if ($this->font['name'] != $_font['name']) {
             $this->fontChanged($_font, $this->font['name']);
+            $this->refresh();
         }
         $this->font = $_font;
         return $this;
     }
 
-    protected function fontChanged($new_font, $old_font)
+    protected function refresh()
     {
         // ensure current codepage
         $this->setCodePage($this->getEncoding()->getCodePage());
         return $this;
+    }
+
+    protected function fontChanged($new_font, $old_font)
+    {
     }
 
     public function getConnection()
@@ -174,8 +179,7 @@ abstract class Profile
             // ensure defaults
             $this->getConnection()->write($this->capabilities['initialize']);
         }
-        // ensure default codepage
-        $this->setCodePage($this->getDefaultCodePage());
+        $this->refresh();
     }
 
     public function finalize()
@@ -205,6 +209,11 @@ abstract class Profile
         return $this;
     }
 
+    protected function getBitmapCmd()
+    {
+        return "\e*!";
+    }
+
     public function draw($image, $align)
     {
         if ($align !== null) {
@@ -216,7 +225,7 @@ abstract class Profile
         $this->getConnection()->write("\e3\x10");
         for ($i=0; $i < $image->getLines(); $i++) {
             $data = $image->getLineData($i);
-            $this->getConnection()->write("\e*\x21" . chr($low) . chr($high) . $data . "\eJ\x00");
+            $this->getConnection()->write($this->getBitmapCmd() . chr($low) . chr($high) . $data . "\eJ\x00");
         }
         $this->getConnection()->write("\e2");
         // reset align to left

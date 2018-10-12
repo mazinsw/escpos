@@ -1,11 +1,11 @@
 <?php
-
 namespace Thermal\Profile;
 
 use Thermal\Model;
 use Thermal\Printer;
 use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
+use Thermal\Graphics\Image;
 
 class DarumaTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,8 +59,34 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
         $profile->write('double width + height', Printer::STYLE_DOUBLE_WIDTH | Printer::STYLE_DOUBLE_HEIGHT, null);
         $profile->write('double width', Printer::STYLE_DOUBLE_WIDTH, null);
         $profile->write('double height', Printer::STYLE_DOUBLE_HEIGHT, null);
+        $profile->write('bold italic', Printer::STYLE_BOLD + Printer::STYLE_ITALIC, null);
         $this->assertEquals(
             PrinterTest::getExpectedBuffer('styles_DR700', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
+    public function testFeed()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->feed(1);
+        $profile->feed(4);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('feed_DR700', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
+    public function testDraw()
+    {
+        $this->connection->clear();
+        $image_path = dirname(dirname(__DIR__)) . '/resources/sample.jpg';
+        $image = new Image($image_path);
+        $profile = $this->model->getProfile();
+        $profile->draw($image, Printer::ALIGN_CENTER);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('draw_DR700', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
     }

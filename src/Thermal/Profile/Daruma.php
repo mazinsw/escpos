@@ -4,7 +4,7 @@ namespace Thermal\Profile;
 
 use Thermal\Printer;
 
-class Daruma extends Elgin
+class Daruma extends EscPOS
 {
     /**
      * @param int $number drawer id
@@ -36,6 +36,24 @@ class Daruma extends Elgin
         $this->getConnection()->write($cmd[$align]);
     }
 
+    protected function setStyle($style, $enable)
+    {
+        if ($enable) {
+            // enable styles
+            if (Printer::STYLE_BOLD == $style) {
+                $this->getConnection()->write("\eE");
+                return $this;
+            }
+        } else {
+            // disable styles
+            if (Printer::STYLE_BOLD == $style) {
+                $this->getConnection()->write("\eF");
+                return $this;
+            }
+        }
+        return parent::setStyle($style, $enable);
+    }
+
     protected function setMode($mode, $enable)
     {
         if ($enable) {
@@ -61,10 +79,25 @@ class Daruma extends Elgin
     protected function fontChanged($new_font, $old_font)
     {
         if ($new_font['name'] == 'Font A') {
-            $this->getConnection()->write("\e!\x00");
+            $this->getConnection()->write("\e\xC6XXXXXXXXXX0XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         } elseif ($new_font['name'] == 'Font B') {
-            $this->getConnection()->write("\e!\x01");
+            $this->getConnection()->write("\e\xC6XXXXXXXXXX1XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         }
         return $this;
+    }
+
+    public function feed($lines)
+    {
+        if ($lines > 1) {
+            $this->getConnection()->write(\str_repeat("\r\n", $lines));
+        } else {
+            $this->getConnection()->write("\r\n");
+        }
+        return $this;
+    }
+
+    protected function getBitmapCmd()
+    {
+        return "\e*m";
     }
 }

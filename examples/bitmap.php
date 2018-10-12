@@ -14,7 +14,7 @@ if (file_exists($cache_name)) {
     $image = new Image(__DIR__ . '/sample.jpg'/*, new BayerOrdered() */);
     file_put_contents($cache_name, serialize($image));
 }
-$model = new Model('MP-4200 TH');
+$model = new Model('TM-T20');
 $connection = new Buffer();
 $printer = new Printer($model, $connection);
 $printer->draw($image, Printer::ALIGN_CENTER);

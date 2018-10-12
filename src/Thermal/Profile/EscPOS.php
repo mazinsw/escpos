@@ -77,7 +77,7 @@ class EscPOS extends Profile
             }
             $this->getConnection()->write($cmd);
         } else {
-            $this->getConnection()->write("\n");
+            $this->getConnection()->write("\r\n");
         }
         return $this;
     }
@@ -125,6 +125,6 @@ class EscPOS extends Profile
         } elseif ($new_font['name'] == 'Font B') {
             $this->getConnection()->write("\eM\x01");
         }
-        return parent::fontChanged($new_font, $old_font);
+        parent::fontChanged($new_font, $old_font);
     }
 }

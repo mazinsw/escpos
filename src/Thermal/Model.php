@@ -7,6 +7,7 @@ use Thermal\Profile\Diebold;
 use Thermal\Profile\Elgin;
 use Thermal\Profile\EscBema;
 use Thermal\Profile\EscPOS;
+use Thermal\Profile\EscMode;
 use Thermal\Profile\Generic;
 use Thermal\Profile\Perto;
 use Thermal\Profile\Profile;
@@ -54,6 +55,9 @@ class Model
     {
         if ($profile_name == 'escbema') {
             return new EscBema($capabilities);
+        }
+        if ($profile_name == 'escmode') {
+            return new EscMode($capabilities);
         }
         if ($profile_name == 'elgin') {
             return new Elgin($capabilities);

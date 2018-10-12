@@ -6,7 +6,7 @@ return [
         'MP-4200 TH' => 'escbema',
         'MP-20 MI' => 'escbema',
         'MP-100S TH' => 'escbema',
-        'TM-T20' => 'escpos',
+        'TM-T20' => 'escmode',
         'TM-T81' => 'escpos',
         'TM-T88' => 'escpos',
         'NIX' => 'elgin',
@@ -62,6 +62,28 @@ return [
                 'CP858' => "\et\x13"
             ]
         ],
+        'escmode' => [
+            'profile' => 'escpos',
+            'columns' => 48,
+            'fonts' => [
+                [
+                    'name' => 'Font 1',
+                    'columns' => 42,
+                ],
+                [
+                    'name' => 'Font A',
+                    'columns' => 48,
+                ],
+                [
+                    'name' => 'Font 2',
+                    'columns' => 60,
+                ],
+                [
+                    'name' => 'Font B',
+                    'columns' => 64,
+                ],
+            ],
+        ],
         'escbema' => [
             'brand' => 'Bematech',
             'columns' => 50,
@@ -107,8 +129,9 @@ return [
             ]
         ],
         'daruma' => [
-            'profile' => 'elgin',
+            'profile' => 'escpos',
             'columns' => 48,
+            'codepage' => 'CP850',
             'fonts' => [
                 [
                     'name' => 'Font A',
@@ -117,13 +140,13 @@ return [
                 [
                     'name' => 'Font B',
                     'columns' => 52
-                ]
+                ],
             ],
             'codepages' => [
-                'ISO-8859-1' => "",
-                'CP850' => "",
-                'ABICOMP' => "",
-                'CP437' => ""
+                'ISO-8859-1' => "\et\x01",
+                'CP850' => "\et\x02",
+                'ABICOMP' => "\et\x03",
+                'CP437' => "\et\x04"
             ]
         ],
         'diebold' => [
