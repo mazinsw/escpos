@@ -70,6 +70,7 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->clear();
         $profile = $this->model->getProfile();
+        $profile->buzzer();
         $profile->feed(1);
         $profile->feed(4);
         $this->assertEquals(

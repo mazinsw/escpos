@@ -237,6 +237,8 @@ abstract class Profile
 
     abstract public function feed($lines);
     abstract public function cutter($mode);
+    abstract public function buzzer();
+
     /**
      * @param int $number drawer id
      * @param int $on_time time in milliseconds that activate the drawer
