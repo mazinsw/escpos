@@ -85,9 +85,23 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
         $image_path = dirname(dirname(__DIR__)) . '/resources/sample.jpg';
         $image = new Image($image_path);
         $profile = $this->model->getProfile();
-        $profile->draw($image, Printer::ALIGN_CENTER);
+        $profile->setAlignment(Printer::ALIGN_CENTER);
+        $profile->draw($image);
+        $profile->setAlignment(Printer::ALIGN_LEFT);
+
         $this->assertEquals(
             PrinterTest::getExpectedBuffer('draw_DR700', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
+    public function testQrcode()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->qrcode('https://github.com/mazinsw/escpos', 4);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('qrcode_daruma', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
     }

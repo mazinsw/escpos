@@ -5,15 +5,22 @@ namespace Thermal;
 use Thermal\Profile\Daruma;
 use Thermal\Profile\Diebold;
 use Thermal\Profile\Elgin;
-use Thermal\Profile\EscBema;
-use Thermal\Profile\EscPOS;
-use Thermal\Profile\EscMode;
+use Thermal\Profile\Bematech;
+use Thermal\Profile\Epson;
 use Thermal\Profile\Generic;
+use Thermal\Profile\ControliD;
 use Thermal\Profile\Perto;
 use Thermal\Profile\Profile;
+use Thermal\Profile\Dataregis;
+use Thermal\Profile\Sweda;
 
 class Model
 {
+    /**
+     * Model profile
+     *
+     * @var \Thermal\Profile\Profile
+     */
     private $profile;
 
     public function __construct($name)
@@ -42,7 +49,9 @@ class Model
         $capabilities['model'] = $model;
         // fill inherited fields
         $profile = $capabilities['profile'];
-        while (isset($capabilities['profile'])) {
+        while (isset($capabilities['profile'])
+            && isset($data['profiles'][$capabilities['profile']])
+        ) {
             $inherited = $capabilities['profile'];
             unset($capabilities['profile']);
             $parent = $data['profiles'][$inherited];
@@ -51,31 +60,51 @@ class Model
         return [$profile, $capabilities];
     }
 
+    /**
+     * Instantiate new profile from name
+     *
+     * @param string $profile_name
+     * @param array $capabilities
+     * @return \Thermal\Profile\Profile
+     */
     private static function newProfile($profile_name, $capabilities)
     {
-        if ($profile_name == 'escbema') {
-            return new EscBema($capabilities);
+        switch ($profile_name) {
+            case 'bematech':
+                return new Bematech($capabilities);
+
+            case 'epson':
+            case 'tmt20':
+                return new Epson($capabilities);
+
+            case 'elgin':
+                return new Elgin($capabilities);
+
+            case 'daruma':
+                return new Daruma($capabilities);
+
+            case 'diebold':
+                return new Diebold($capabilities);
+
+            case 'sweda':
+                return new Sweda($capabilities);
+
+            case 'dataregis':
+                return new Dataregis($capabilities);
+
+            case 'controlid':
+                return new ControliD($capabilities);
+
+            case 'perto':
+                return new Perto($capabilities);
+
+            case 'generic':
+                return new Generic($capabilities);
+
+            default:
+                return new Epson($capabilities);
         }
-        if ($profile_name == 'escmode') {
-            return new EscMode($capabilities);
-        }
-        if ($profile_name == 'elgin') {
-            return new Elgin($capabilities);
-        }
-        if ($profile_name == 'daruma') {
-            return new Daruma($capabilities);
-        }
-        if ($profile_name == 'diebold') {
-            return new Diebold($capabilities);
-        }
-        if ($profile_name == 'generic') {
-            return new Generic($capabilities);
-        }
-        if ($profile_name == 'perto') {
-            return new Perto($capabilities);
-        }
-        // default profile
-        return new EscPOS($capabilities);
+
     }
 
     private static function loadCapabilities()

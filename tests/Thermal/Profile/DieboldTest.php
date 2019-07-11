@@ -26,6 +26,17 @@ class DieboldTest extends \PHPUnit_Framework_TestCase
         $this->model->getProfile()->setConnection($this->connection);
     }
 
+    public function testBuzzer()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->buzzer();
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('buzzer_IM453_Diebold', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
     public function testDrawer()
     {
         $this->connection->clear();

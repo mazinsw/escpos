@@ -4,7 +4,7 @@ namespace Thermal\Profile;
 
 use Thermal\Printer;
 
-class Daruma extends EscPOS
+class Daruma extends Epson
 {
     /**
      * @param int $number drawer id
@@ -26,7 +26,7 @@ class Daruma extends EscPOS
         return $this;
     }
 
-    protected function setAlignment($align)
+    public function setAlignment($align)
     {
         $cmd = [
             Printer::ALIGN_LEFT => "\ej0",
@@ -76,16 +76,6 @@ class Daruma extends EscPOS
         return $this;
     }
 
-    protected function fontChanged($new_font, $old_font)
-    {
-        if ($new_font['name'] == 'Font A') {
-            $this->getConnection()->write("\e\xC6XXXXXXXXXX0XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        } elseif ($new_font['name'] == 'Font B') {
-            $this->getConnection()->write("\e\xC6XXXXXXXXXX1XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        }
-        return $this;
-    }
-
     public function feed($lines)
     {
         if ($lines > 1) {
@@ -94,6 +84,20 @@ class Daruma extends EscPOS
             $this->getConnection()->write("\r\n");
         }
         return $this;
+    }
+
+    public function qrcode($data, $size)
+    {
+        $len = strlen($data) + 2;
+        $pL = $len & 0xFF;
+        $pH = ($len >> 8) & 0xFF;
+        
+        $error = 'M';
+        $size = min(7, max(3, $size ?: 4));
+        $this->getConnection()->write("\e\x81");
+        $this->getConnection()->write(chr($pL) . chr($pH));
+        $this->getConnection()->write(chr($size) . $error);
+        $this->getConnection()->write($data);
     }
 
     protected function getBitmapCmd()

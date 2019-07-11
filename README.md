@@ -31,6 +31,7 @@ $printer->setColumns(56);
 $printer->write('Simple Text *** ');
 $printer->writeln('Bold Text', Printer::STYLE_BOLD);
 $printer->writeln('Double height', Printer::STYLE_DOUBLE_HEIGHT | Printer::STYLE_BOLD, Printer::ALIGN_CENTER);
+$printer->qrcode('qrcode text');
 $printer->feed(2);
 $printer->buzzer();
 $printer->cutter();

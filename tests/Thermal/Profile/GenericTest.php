@@ -38,4 +38,15 @@ class GenericTest extends \PHPUnit_Framework_TestCase
             $this->connection->getBuffer()
         );
     }
+
+    public function testQrcode()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->qrcode('https://github.com/mazinsw/escpos', 4);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('qrcode_generic', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
 }

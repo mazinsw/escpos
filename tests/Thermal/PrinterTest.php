@@ -92,9 +92,25 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
         $this->connection->clear();
         $image_path = dirname(__DIR__) . '/resources/sample.jpg';
         $image = new Image($image_path);
-        $this->printer->draw($image, Printer::ALIGN_CENTER);
+        $this->printer->setAlignment(Printer::ALIGN_CENTER);
+        $this->printer->draw($image);
+        $this->printer->setAlignment(Printer::ALIGN_LEFT);
+
         $this->assertEquals(
             self::getExpectedBuffer('draw_MP-4200_TH', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
+    public function testQrcode()
+    {
+        $this->connection->clear();
+        $this->printer->setAlignment(Printer::ALIGN_CENTER);
+        $this->printer->qrcode('https://github.com/mazinsw/escpos');
+        $this->printer->setAlignment(Printer::ALIGN_LEFT);
+
+        $this->assertEquals(
+            self::getExpectedBuffer('qrcode_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
     }

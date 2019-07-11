@@ -4,7 +4,7 @@ namespace Thermal\Profile;
 
 use Thermal\Printer;
 
-class Elgin extends EscPOS
+class Elgin extends Epson
 {
     public function cutter($mode)
     {
@@ -80,5 +80,16 @@ class Elgin extends EscPOS
             }
         }
         return $this;
+    }
+
+    public function qrcode($data, $size)
+    {
+        $tipo = 2;
+        $size = $size ?: 4;
+        $error = 'M';
+        $this->getConnection()->write("\x1do\x00" . chr($size) ."\x00" . chr($tipo));
+        $this->getConnection()->write("\x1dk\x0B" . $error ."A,");
+        $this->getConnection()->write($data);
+        $this->getConnection()->write("\x00");
     }
 }

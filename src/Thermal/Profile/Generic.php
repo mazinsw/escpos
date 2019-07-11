@@ -4,7 +4,7 @@ namespace Thermal\Profile;
 
 use Thermal\Printer;
 
-class Generic extends EscPOS
+class Generic extends Epson
 {
     protected function setMode($mode, $enable)
     {
@@ -26,5 +26,10 @@ class Generic extends EscPOS
             }
         }
         return $this;
+    }
+
+    public function qrcode($data, $size)
+    {
+        $this->drawQrcode($data, $size);
     }
 }

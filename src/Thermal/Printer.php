@@ -21,15 +21,24 @@ class Printer
     const DRAWER_1 = 0;
     const DRAWER_2 = 1;
 
+    /**
+     * Model
+     *
+     * @var Model
+     */
     private $model;
-    private $connection;
 
+    /**
+     * Constructor
+     *
+     * @param Model $model
+     * @param Connection\Connection $connection
+     */
     public function __construct($model, $connection)
     {
-        $this->connection = $connection;
-        $this->connection->open();
+        $connection->open();
         $this->model = $model;
-        $this->model->getProfile()->setConnection($this->connection);
+        $this->model->getProfile()->setConnection($connection);
         $this->model->getProfile()->initialize();
     }
 
@@ -62,9 +71,21 @@ class Printer
         return $this;
     }
 
-    public function draw($image, $align = self::ALIGN_LEFT)
+    public function draw($image)
     {
-        $this->model->getProfile()->draw($image, $align);
+        $this->model->getProfile()->draw($image);
+        return $this;
+    }
+
+    public function qrcode($data, $size = null)
+    {
+        $this->model->getProfile()->qrcode($data, $size);
+        return $this;
+    }
+
+    public function setAlignment($align)
+    {
+        $this->model->getProfile()->setAlignment($align);
         return $this;
     }
 

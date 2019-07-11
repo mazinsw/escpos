@@ -26,6 +26,17 @@ class PertoTest extends \PHPUnit_Framework_TestCase
         $this->model->getProfile()->setConnection($this->connection);
     }
 
+    public function testBuzzer()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->buzzer();
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('buzzer_PertoPrinter', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
     public function testCutter()
     {
         $this->connection->clear();

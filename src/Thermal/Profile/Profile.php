@@ -5,16 +5,59 @@ namespace Thermal\Profile;
 use Thermal\Printer;
 use Thermal\Buffer\Encoding;
 use Thermal\Connection\Connection;
+use Endroid\QrCode\QrCode;
+use Thermal\Graphics\Image;
+use Thermal\Graphics\Filter\Threshold;
 
 abstract class Profile
 {
+    /**
+     * Column count
+     *
+     * @var int
+     */
     private $columns;
+
+    /**
+     * Model capabilities
+     *
+     * @var array
+     */
     protected $capabilities;
+
+    /**
+     * Connection or output buffer
+     *
+     * @var \Thermal\Connection\Connection
+     */
     private $connection;
+
+    /**
+     * Font name A, C or C
+     *
+     * @var string
+     */
     private $font;
+
+    /**
+     * Printer default font name
+     *
+     * @var string
+     */
     private $default_font;
+
+    /**
+     * Encoding
+     *
+     * @var \Thermal\Buffer\Encoding
+     */
     private $encoding;
 
+    /**
+     * Profile constructor
+     *
+     * @param array $capabilities
+     */
     public function __construct($capabilities)
     {
         $this->capabilities = $capabilities;
@@ -31,16 +74,31 @@ abstract class Profile
         return $this->capabilities['brand'] . ' ' . $name;
     }
 
+    /**
+     * Printer encoding
+     *
+     * @return \Thermal\Buffer\Encoding
+     */
     public function getEncoding()
     {
         return $this->encoding;
     }
 
+    /**
+     * Default column count
+     *
+     * @return int
+     */
     public function getDefaultColumns()
     {
         return $this->capabilities['columns'];
     }
 
+    /**
+     * Column count for printing
+     *
+     * @return int
+     */
     public function getColumns()
     {
         return $this->columns;
@@ -159,6 +217,11 @@ abstract class Profile
     {
     }
 
+    /**
+     * Current connection
+     *
+     * @return \Thermal\Connection\Connection
+     */
     public function getConnection()
     {
         if ($this->connection instanceof Connection) {
@@ -167,6 +230,12 @@ abstract class Profile
         throw new \Exception('Connection must be set before priting', 500);
     }
 
+    /**
+     * Set current connection
+     *
+     * @param \Thermal\Connection\Connection $connection
+     * @return self
+     */
     public function setConnection($connection)
     {
         $this->connection = $connection;
@@ -214,11 +283,8 @@ abstract class Profile
         return "\e*!";
     }
 
-    public function draw($image, $align)
+    public function draw($image)
     {
-        if ($align !== null) {
-            $this->setAlignment($align);
-        }
         $width = $image->getWidth();
         $low = $width & 0xFF;
         $high = ($width >> 8) & 0xFF;
@@ -228,11 +294,21 @@ abstract class Profile
             $this->getConnection()->write($this->getBitmapCmd() . chr($low) . chr($high) . $data . "\eJ\x00");
         }
         $this->getConnection()->write("\e2");
-        // reset align to left
-        if ($align !== null && $align != Printer::ALIGN_LEFT) {
-            $this->setAlignment(Printer::ALIGN_LEFT);
-        }
         return $this;
+    }
+
+    protected function drawQrcode($data, $size)
+    {
+        $qrCode = new QrCode($data);
+        $qrCode->setSize( min(11, max(1, $size ?: 4)) * 50);
+        $image = new Image(
+            [
+                'data' => $qrCode->writeString(),
+                'name' => 'qrcode.png',
+            ],
+            new Threshold()
+        );
+        $this->draw($image);
     }
 
     abstract public function feed($lines);
@@ -246,7 +322,7 @@ abstract class Profile
      */
     abstract public function drawer($number, $on_time, $off_time);
 
-    abstract protected function setAlignment($align);
+    abstract public function setAlignment($align);
     abstract protected function setMode($mode, $enable);
     abstract protected function setStyle($style, $enable);
 }

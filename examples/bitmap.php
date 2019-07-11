@@ -17,7 +17,11 @@ if (file_exists($cache_name)) {
 $model = new Model('TM-T20');
 $connection = new Buffer();
 $printer = new Printer($model, $connection);
-$printer->draw($image, Printer::ALIGN_CENTER);
+$printer->setAlignment(Printer::ALIGN_CENTER);
+$printer->draw($image);
+$printer->setAlignment(Printer::ALIGN_LEFT);
 $printer->feed(6);
 $printer->cutter();
 echo $connection->getBuffer();
+
+// php examples/bitmap.php | lp -d MyCupsPrinterName

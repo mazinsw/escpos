@@ -2,13 +2,13 @@
 
 return [
     'models' => [
-        'MP-5100 TH' => 'escbema',
-        'MP-4200 TH' => 'escbema',
-        'MP-20 MI' => 'escbema',
-        'MP-100S TH' => 'escbema',
-        'TM-T20' => 'escmode',
-        'TM-T81' => 'escpos',
-        'TM-T88' => 'escpos',
+        'MP-5100 TH' => 'bematech',
+        'MP-4200 TH' => 'bematech',
+        'MP-20 MI' => 'bematech',
+        'MP-100S TH' => 'bematech',
+        'TM-T20' => 'tmt20',
+        'TM-T81' => 'epson',
+        'TM-T88' => 'epson',
         'NIX' => 'elgin',
         'VOX+' => 'elgin',
         'VOX' => 'elgin',
@@ -24,10 +24,17 @@ return [
         'IM433' => 'diebold',
         'IM453' => 'diebold',
         'TSP-143' => 'diebold',
+        'SI-250' => 'sweda',
+        'SI-300L' => 'sweda',
+        'SI-300S' => 'sweda',
+        'SI-300W' => 'sweda',
+        'E-3202' => 'dataregis',
+        'DT200' => 'dataregis',
         'IM833' => [
             'profile' => 'diebold',
             'name' => 'Mecaf Perfecta'
         ],
+        'PrintiD' => 'controlid',
         'PertoPrinter' => 'perto',
         'CMP-20' => [
             'profile' => 'generic',
@@ -35,7 +42,7 @@ return [
         ]
     ],
     'profiles' => [
-        'escpos' => [
+        'epson' => [
             'brand' => 'Epson',
             'columns' => 42,
             'codepage' => 'CP850',
@@ -62,8 +69,8 @@ return [
                 'CP858' => "\et\x13"
             ]
         ],
-        'escmode' => [
-            'profile' => 'escpos',
+        'tmt20' => [
+            'profile' => 'epson',
             'columns' => 48,
             'fonts' => [
                 [
@@ -84,7 +91,7 @@ return [
                 ],
             ],
         ],
-        'escbema' => [
+        'bematech' => [
             'brand' => 'Bematech',
             'columns' => 50,
             'codepage' => 'CP850',
@@ -118,7 +125,7 @@ return [
             ]
         ],
         'elgin' => [
-            'profile' => 'escpos',
+            'profile' => 'epson',
             'brand' => 'Elgin',
             'codepages' => [
                 'ABICOMP' => "\et\x01",
@@ -128,8 +135,16 @@ return [
                 'CP858' => "\et\x05"
             ]
         ],
+        'sweda' => [
+            'profile' => 'elgin',
+            'brand' => 'Sweda'
+        ],
+        'dataregis' => [
+            'profile' => 'elgin',
+            'brand' => 'Dataregis'
+        ],
         'daruma' => [
-            'profile' => 'escpos',
+            'profile' => 'epson',
             'columns' => 48,
             'codepage' => 'CP850',
             'fonts' => [
@@ -157,6 +172,10 @@ return [
                 'CP437' => "\et\x03",
                 'Windows-1252' => "\et\x04"
             ]
+        ],
+        'controlid' => [
+            'profile' => 'epson',
+            'brand' => 'ControliD'
         ],
         'perto' => [
             'profile' => 'elgin',

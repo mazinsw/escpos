@@ -11,6 +11,12 @@ class Image
     private $width;
     private $bytes_per_row;
 
+    /**
+     * Image constructor
+     *
+     * @param string|array $filename
+     * @param Filter $filter
+     */
     public function __construct($filename, $filter = null)
     {
         $filter = $filter ?: new FloydSteinberg();

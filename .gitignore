@@ -48,5 +48,4 @@ $RECYCLE.BIN/
 *.sublime-workspace
 storage/
 vendor/
-composer.lock
 build/

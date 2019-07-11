@@ -18,3 +18,5 @@ $printer->buzzer();
 $printer->cutter();
 $printer->drawer(Printer::DRAWER_1);
 echo $connection->getBuffer();
+
+// php examples/basic.php | lp -d MyCupsPrinterName

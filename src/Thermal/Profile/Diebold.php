@@ -6,6 +6,12 @@ use Thermal\Printer;
 
 class Diebold extends Elgin
 {
+    public function buzzer()
+    {
+        $this->getConnection()->write("\x07");
+        return $this;
+    }
+
     /**
      * @param int $number drawer id
      * @param int $on_time time in milliseconds that activate the drawer

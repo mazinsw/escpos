@@ -2,7 +2,7 @@
 
 namespace Thermal;
 
-use Thermal\Profile\EscPOS;
+use Thermal\Profile\Epson;
 
 class ModelTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,8 +26,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 
     public function testReuseProfile()
     {
-        $profile = new EscPOS([
-            'profile' => 'escpos',
+        $profile = new Epson([
+            'profile' => 'epson',
             'model' => 'Custom',
             'brand' => 'Unknow',
             'codepage' => 'UTF-8',
@@ -47,7 +47,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     public function testExtendCapabilities()
     {
         $model = new Model([
-            'profile' => 'escpos',
+            'profile' => 'epson',
             'model' => 'Custom',
             'brand' => 'Unknow',
             'codepage' => 'UTF-8',

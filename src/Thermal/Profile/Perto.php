@@ -2,10 +2,14 @@
 
 namespace Thermal\Profile;
 
-use Thermal\Printer;
-
 class Perto extends Elgin
 {
+    public function buzzer()
+    {
+        $this->getConnection()->write("\x07");
+        return $this;
+    }
+
     public function cutter($mode)
     {
         $this->getConnection()->write("\eJ\x18\x1dVB(");
