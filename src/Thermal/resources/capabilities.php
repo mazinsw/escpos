@@ -144,6 +144,7 @@ return [
             'brand' => 'Dataregis'
         ],
         'daruma' => [
+            'brand' => 'Daruma',
             'profile' => 'epson',
             'columns' => 48,
             'codepage' => 'CP850',
@@ -165,6 +166,7 @@ return [
             ]
         ],
         'diebold' => [
+            'brand' => 'Diebold',
             'profile' => 'daruma',
             'codepages' => [
                 'ABICOMP' => "\et\x01",

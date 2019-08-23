@@ -19,7 +19,7 @@ class Model
     /**
      * Model profile
      *
-     * @var \Thermal\Profile\Profile
+     * @var Profile
      */
     private $profile;
 
@@ -65,7 +65,7 @@ class Model
      *
      * @param string $profile_name
      * @param array $capabilities
-     * @return \Thermal\Profile\Profile
+     * @return Profile
      */
     private static function newProfile($profile_name, $capabilities)
     {
@@ -104,14 +104,23 @@ class Model
             default:
                 return new Epson($capabilities);
         }
-
     }
 
+    /**
+     * Load all  models and capabilities and return
+     *
+     * @return array
+     */
     private static function loadCapabilities()
     {
         return require(__DIR__ . '/resources/capabilities.php');
     }
 
+    /**
+     * Get all models and capabilities
+     *
+     * @return array
+     */
     public static function getAll()
     {
         $data = self::loadCapabilities();
@@ -123,13 +132,20 @@ class Model
         return $data['models'];
     }
 
+    /**
+     * Selected profile name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->profile->getName();
     }
 
     /**
-     * @return \Thermal\Profile\Profile
+     * Selected profile
+     *
+     * @return Profile
      */
     public function getProfile()
     {
