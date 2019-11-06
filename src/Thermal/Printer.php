@@ -98,9 +98,8 @@ class Printer
     public function writeln($text, $styles = 0, $align = self::ALIGN_LEFT)
     {
         if (strlen($text) > 0) {
-            $this->write($text, $styles, $align);
+            $this->write($text."\n", $styles, $align);
         }
-        $this->feed();
         return $this;
     }
 
