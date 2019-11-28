@@ -194,13 +194,13 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
             $this->connection->getBuffer()
         );
         $this->connection->clear();
-        $this->printer->write('bold align right', Printer::STYLE_BOLD, Printer::ALIGN_RIGHT);
+        $this->printer->writeln('bold align right', Printer::STYLE_BOLD, Printer::ALIGN_RIGHT);
         $this->assertEquals(
             self::getExpectedBuffer('write_bold_align_right_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
         $this->connection->clear();
-        $this->printer->write('expanded align right', Printer::STYLE_DOUBLE_WIDTH, Printer::ALIGN_CENTER);
+        $this->printer->writeln('expanded align right', Printer::STYLE_DOUBLE_WIDTH, Printer::ALIGN_CENTER);
         $this->assertEquals(
             self::getExpectedBuffer('write_expanded_align_right_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()

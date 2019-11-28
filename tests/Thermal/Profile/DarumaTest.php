@@ -43,9 +43,9 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->clear();
         $profile = $this->model->getProfile();
-        $profile->write('left', null, Printer::ALIGN_LEFT);
-        $profile->write('center', null, Printer::ALIGN_CENTER);
-        $profile->write('right', null, Printer::ALIGN_RIGHT);
+        $profile->writeln('left', 0, Printer::ALIGN_LEFT);
+        $profile->writeln('center', 0, Printer::ALIGN_CENTER);
+        $profile->writeln('right', 0, Printer::ALIGN_RIGHT);
         $this->assertEquals(
             PrinterTest::getExpectedBuffer('align_DR700', $this->connection->getBuffer()),
             $this->connection->getBuffer()
@@ -56,10 +56,10 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->clear();
         $profile = $this->model->getProfile();
-        $profile->write('double width + height', Printer::STYLE_DOUBLE_WIDTH | Printer::STYLE_DOUBLE_HEIGHT, null);
-        $profile->write('double width', Printer::STYLE_DOUBLE_WIDTH, null);
-        $profile->write('double height', Printer::STYLE_DOUBLE_HEIGHT, null);
-        $profile->write('bold italic', Printer::STYLE_BOLD + Printer::STYLE_ITALIC, null);
+        $profile->write('double width + height', Printer::STYLE_DOUBLE_WIDTH | Printer::STYLE_DOUBLE_HEIGHT);
+        $profile->write('double width', Printer::STYLE_DOUBLE_WIDTH);
+        $profile->write('double height', Printer::STYLE_DOUBLE_HEIGHT);
+        $profile->write('bold italic', Printer::STYLE_BOLD + Printer::STYLE_ITALIC);
         $this->assertEquals(
             PrinterTest::getExpectedBuffer('styles_DR700', $this->connection->getBuffer()),
             $this->connection->getBuffer()

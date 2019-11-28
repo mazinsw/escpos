@@ -82,10 +82,10 @@ class ElginTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->clear();
         $profile = $this->model->getProfile();
-        $profile->write('double width + height', Printer::STYLE_DOUBLE_WIDTH | Printer::STYLE_DOUBLE_HEIGHT, null);
-        $profile->write('double width', Printer::STYLE_DOUBLE_WIDTH, null);
-        $profile->write('double height', Printer::STYLE_DOUBLE_HEIGHT, null);
-        $profile->write('bold text', Printer::STYLE_BOLD, null);
+        $profile->write('double width + height', Printer::STYLE_DOUBLE_WIDTH | Printer::STYLE_DOUBLE_HEIGHT);
+        $profile->write('double width', Printer::STYLE_DOUBLE_WIDTH);
+        $profile->write('double height', Printer::STYLE_DOUBLE_HEIGHT);
+        $profile->write('bold text', Printer::STYLE_BOLD);
         $this->assertEquals(
             PrinterTest::getExpectedBuffer('styles_I9', $this->connection->getBuffer()),
             $this->connection->getBuffer()

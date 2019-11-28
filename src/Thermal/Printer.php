@@ -89,18 +89,15 @@ class Printer
         return $this;
     }
 
-    public function write($text, $styles = 0, $align = self::ALIGN_LEFT)
+    public function write($text, $styles = 0)
     {
-        $this->model->getProfile()->write($text, $styles, $align);
+        $this->model->getProfile()->write($text, $styles);
         return $this;
     }
 
     public function writeln($text, $styles = 0, $align = self::ALIGN_LEFT)
     {
-        if (strlen($text) > 0) {
-            $this->write($text, $styles, $align);
-        }
-        $this->feed();
+        $this->model->getProfile()->writeln($text, $styles, $align);
         return $this;
     }
 

@@ -255,11 +255,8 @@ abstract class Profile
     {
     }
 
-    public function write($text, $styles, $align)
+    public function write($text, $styles)
     {
-        if ($align !== null) {
-            $this->setAlignment($align);
-        }
         $this->setMode($styles, true);
         $this->setStyle(Printer::STYLE_CONDENSED & $styles, true);
         $this->setStyle(Printer::STYLE_BOLD & $styles, true);
@@ -271,6 +268,18 @@ abstract class Profile
         $this->setStyle(Printer::STYLE_BOLD & $styles, false);
         $this->setStyle(Printer::STYLE_CONDENSED & $styles, false);
         $this->setMode($styles, false);
+        return $this;
+    }
+
+    public function writeln($text, $styles, $align)
+    {
+        if ($align !== null) {
+            $this->setAlignment($align);
+        }
+        if (strlen($text) > 0) {
+            $this->write($text, $styles);
+        }
+        $this->feed(1);
         // reset align to left
         if ($align !== null && $align != Printer::ALIGN_LEFT) {
             $this->setAlignment(Printer::ALIGN_LEFT);
@@ -297,10 +306,26 @@ abstract class Profile
         return $this;
     }
 
+    /**
+     * Draw QR Code
+     *
+     * @param string $data data to encode
+     * @param int $size size of QR Code
+     * @return void
+     */
+    abstract public function qrcode($data, $size);
+
+    /**
+     * Draw QR Code generating an image and sending to printer
+     *
+     * @param string $data data to encode
+     * @param int $size size of QR Code
+     * @return void
+     */
     protected function drawQrcode($data, $size)
     {
         $qrCode = new QrCode($data);
-        $qrCode->setSize( min(11, max(1, $size ?: 4)) * 50);
+        $qrCode->setSize(min(11, max(1, $size ?: 4)) * 50);
         $image = new Image(
             [
                 'data' => $qrCode->writeString(),
