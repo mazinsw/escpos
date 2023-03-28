@@ -70,7 +70,7 @@ class Image
             default:
                 throw new \Exception(sprintf('Image format "%s" not supported in GD', $ext));
         }
-        if (!is_resource($image)) {
+        if (!$image) {
             throw new \Exception(sprintf('Failed to load image "%s"', $filename));
         }
         $processed_image = $filter->process($image);
@@ -89,7 +89,7 @@ class Image
     protected function loadImageData($data, $filter)
     {
         $image = @imagecreatefromstring($data['data']);
-        if (!is_resource($image)) {
+        if (!$image) {
             throw new \Exception(sprintf('Failed to load image "%s"', $data['name']));
         }
         $processed_image = $filter->process($image);
