@@ -21,10 +21,11 @@ class Printer
     const DRAWER_1 = 0;
     const DRAWER_2 = 1;
 
-    const BARCODE_UPC_A  = 0;
-    const BARCODE_UPC_E  = 1;
-    const BARCODE_EAN13  = 2;
-    const BARCODE_EAN8   = 3;
+    const BARCODE_UPC_A   = 0;
+    const BARCODE_UPC_E   = 1;
+    const BARCODE_EAN13   = 2;
+    const BARCODE_EAN8    = 3;
+    const BARCODE_CODE128 = 73;
 
     /**
      * Model

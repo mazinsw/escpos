@@ -93,6 +93,7 @@ class Daruma extends Epson
             Printer::BARCODE_UPC_E => 8,
             Printer::BARCODE_EAN13 => 1,
             Printer::BARCODE_EAN8  => 2,
+            Printer::BARCODE_CODE128  => 5,
         ];
         $new_format = $tipo[$format];
         $this->getConnection()->write("\eb" . chr($new_format) . chr(2) . chr(50) . chr(0) . $data . chr(0));

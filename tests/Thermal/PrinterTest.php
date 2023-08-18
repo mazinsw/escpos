@@ -131,6 +131,19 @@ class PrinterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testBarcodeCode128()
+    {
+        $this->connection->clear();
+        $this->printer->setAlignment(Printer::ALIGN_CENTER);
+        $this->printer->barcode('0123456789101', Printer::BARCODE_CODE128);
+        $this->printer->setAlignment(Printer::ALIGN_LEFT);
+
+        $this->assertEquals(
+            self::getExpectedBuffer('barcode_code128_MP-4200_TH', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
     public function testQrcode()
     {
         $this->connection->clear();

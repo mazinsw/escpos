@@ -19,9 +19,15 @@ class Diebold extends Elgin
             Printer::BARCODE_UPC_E => '8',
             Printer::BARCODE_EAN13 => '0',
             Printer::BARCODE_EAN8  => '4',
+            Printer::BARCODE_CODE128  => '3',
         ];
         $new_format = $tipo[$format];
-        $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . $data);
+        if ($format === Printer::BARCODE_CODE128) {
+            $len = strlen($data);
+            $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . chr($len) . $data);
+        } else {
+            $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . $data);
+        }
     }
 
     /**
