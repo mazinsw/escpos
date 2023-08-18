@@ -41,7 +41,7 @@ echo $connection->getBuffer();
 ```
 
 ## Dependencies
-- PHP 7.1 or above
+- PHP 8.1 or above
 - Mbstring extension
 
 ## License

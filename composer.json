@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": ">= 7.3.0",
+        "php": ">= 8.1",
         "ext-mbstring": "*",
         "endroid/qr-code": "^3.5.8"
     },
