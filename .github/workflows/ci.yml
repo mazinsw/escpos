@@ -1,0 +1,47 @@
+name: Pipeline
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  testsuite:
+    name: Testes Automatizados
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["8.0", "8.1", "8.2"]
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl, curl, zlib, dom, openssl, soap, json, simplexml, libxml
+
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          # Fetch 10 commits or Scrutinizer will throw ("Failed to retrieve commit parents. If you use a shallow git checkout, please checkout at least a depth of one."), see: RepositoryIntrospector at scrutinizer-ci/ocular GitHub repository
+          # 10 commits is an arbitrary value that is more than 1 commit
+          fetch-depth: 10
+
+      - name: Composer Install
+        run: composer install --no-progress -o --no-ansi --no-interaction
+
+      - name: Check php code style
+        run: composer check-style
+
+      - name: Análises estáticas
+        run: composer analysis
+
+      - name: Rodando PHPUnit
+        run: composer test
+
+      - name: Enviando cobertura de código
+        run: php vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml

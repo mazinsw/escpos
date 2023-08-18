@@ -6,7 +6,7 @@ use Thermal\Model;
 use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
 
-class SwedaTest extends \PHPUnit_Framework_TestCase
+class SwedaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -18,7 +18,7 @@ class SwedaTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('SI-300L');
         $this->connection = new Buffer();

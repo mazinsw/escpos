@@ -6,7 +6,7 @@ use Thermal\Model;
 use Thermal\Connection\Buffer;
 use Thermal\PrinterTest;
 
-class BematechTest extends \PHPUnit_Framework_TestCase
+class BematechTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetDefaultCodePage()
     {
@@ -19,7 +19,7 @@ class BematechTest extends \PHPUnit_Framework_TestCase
     {
         $model = new Model('MP-4200 TH');
         $profile = $model->getProfile();
-        $this->assertInternalType('array', $profile->getCodePages());
+        $this->assertIsArray($profile->getCodePages());
     }
 
     public function testQrcode()

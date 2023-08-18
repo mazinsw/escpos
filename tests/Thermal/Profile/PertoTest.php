@@ -7,7 +7,7 @@ use Thermal\Printer;
 use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
 
-class PertoTest extends \PHPUnit_Framework_TestCase
+class PertoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -19,7 +19,7 @@ class PertoTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('PertoPrinter');
         $this->connection = new Buffer();

@@ -2,7 +2,6 @@
 ## Library to generate buffer for thermal printers
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -55,7 +54,6 @@ Please see [license file](/LICENSE.txt) for more information.
 [ico-downloads]: https://poser.pugx.org/mazinsw/escpos/d/total.svg
 
 [link-packagist]: https://packagist.org/packages/mazinsw/escpos
-[link-travis]: https://travis-ci.org/mazinsw/escpos
 [link-scrutinizer]: https://scrutinizer-ci.com/g/mazinsw/escpos/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/mazinsw/escpos
 [link-downloads]: https://packagist.org/packages/mazinsw/escpos

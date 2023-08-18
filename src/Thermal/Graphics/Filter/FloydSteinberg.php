@@ -10,8 +10,8 @@ class FloydSteinberg implements Filter
      * Convert an image resource to black and white aplying dither.
      * The original image resource will not be changed, a new image resource will be created.
      *
-     * @param \resource $image The source image resource
-     * @return \resource The black and white image resource
+     * @param \GdImage $image The source image resource
+     * @return \GdImage The black and white image resource
      */
     public function process($image)
     {

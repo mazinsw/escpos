@@ -4,7 +4,7 @@ namespace Thermal\Graphics;
 
 use Thermal\PrinterTest;
 
-class ImageTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit\Framework\TestCase
 {
     public static function extractColors($image)
     {
@@ -35,7 +35,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateFromInvalidData()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $image = new Image([
             'name' => 'sample.jpg',
             'data' => ''
@@ -45,20 +45,20 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testCreateFromInvalidPngFile()
     {
         $image_path = dirname(dirname(__DIR__)) . '/resources/invalid_sample.png';
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $image = new Image($image_path);
     }
 
     public function testCreateFromInvalidGifFile()
     {
         $image_path = dirname(dirname(__DIR__)) . '/resources/invalid_sample.gif';
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $image = new Image($image_path);
     }
 
     public function testCreateFromUnsupportedExtension()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $image = new Image('test.xml');
     }
 }

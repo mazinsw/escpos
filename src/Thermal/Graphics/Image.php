@@ -101,7 +101,7 @@ class Image
     /**
      * Load actual image pixels from GD resource.
      *
-     * @param \resource $image GD resource to use
+     * @param \GdImage $image GD resource to use
      */
     private function readImage($image)
     {

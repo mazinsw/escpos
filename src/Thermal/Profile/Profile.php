@@ -28,14 +28,14 @@ abstract class Profile
     /**
      * Connection or output buffer
      *
-     * @var \Thermal\Connection\Connection
+     * @var \Thermal\Connection\Connection|null
      */
     private $connection;
 
     /**
      * Font name A, C or C
      *
-     * @var string
+     * @var array
      */
     private $font;
 

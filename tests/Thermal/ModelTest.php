@@ -4,7 +4,7 @@ namespace Thermal;
 
 use Thermal\Profile\Epson;
 
-class ModelTest extends \PHPUnit_Framework_TestCase
+class ModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetAll()
     {
@@ -57,7 +57,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
 
     public function testModelNotFound()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         new Model('Unknow Model');
     }
 

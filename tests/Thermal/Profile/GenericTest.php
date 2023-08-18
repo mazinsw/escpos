@@ -7,7 +7,7 @@ use Thermal\Printer;
 use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
 
-class GenericTest extends \PHPUnit_Framework_TestCase
+class GenericTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -19,7 +19,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('CMP-20');
         $this->connection = new Buffer();

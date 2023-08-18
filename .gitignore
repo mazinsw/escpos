@@ -49,3 +49,4 @@ $RECYCLE.BIN/
 storage/
 vendor/
 build/
+.phpunit.result.cache

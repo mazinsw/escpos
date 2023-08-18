@@ -4,12 +4,12 @@ namespace Thermal\Buffer;
 
 use Thermal\PrinterTest;
 
-class EncodingTest extends \PHPUnit_Framework_TestCase
+class EncodingTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetSupportedCodePages()
     {
         $list = Encoding::getSupportedCodePages();
-        $this->assertInternalType('array', $list);
+        $this->assertIsArray($list);
     }
 
     public function testSetCodePage()
@@ -18,7 +18,7 @@ class EncodingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('UTF-8', $encoding->getCodePage());
         $encoding->setCodePage('CP850');
         $this->assertEquals('CP850', $encoding->getCodePage());
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $encoding->setCodePage('KATAKANA');
     }
 

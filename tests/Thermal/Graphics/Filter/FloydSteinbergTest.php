@@ -5,7 +5,7 @@ namespace Thermal\Graphics\Filter;
 use Thermal\PrinterTest;
 use Thermal\Graphics\ImageTest;
 
-class FloydSteinbergTest extends \PHPUnit_Framework_TestCase
+class FloydSteinbergTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {

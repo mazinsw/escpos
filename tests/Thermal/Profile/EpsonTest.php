@@ -6,7 +6,7 @@ use Thermal\Model;
 use Thermal\Connection\Buffer;
 use Thermal\PrinterTest;
 
-class EpsonTest extends \PHPUnit_Framework_TestCase
+class EpsonTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -18,7 +18,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('TM-T20');
         $this->connection = new Buffer();
@@ -29,7 +29,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
     {
         $model = new Model('TM-T20');
         $profile = $model->getProfile();
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $profile->buzzer();
     }
 
@@ -42,7 +42,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
     public function testGetCodePagesTMT20()
     {
         $profile = $this->model->getProfile();
-        $this->assertInternalType('array', $profile->getCodePages());
+        $this->assertIsArray($profile->getCodePages());
     }
 
     public function testFontsTMT20()
@@ -65,7 +65,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
     public function testSetInvalidFontTMT20()
     {
         $profile = $this->model->getProfile();
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $profile->setFont(['name' => 'Font D']);
     }
 
@@ -73,7 +73,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
     {
         $model = new Model('TM-T81');
         $profile = $model->getProfile();
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $profile->buzzer();
     }
 
@@ -88,14 +88,14 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
     {
         $model = new Model('TM-T81');
         $profile = $model->getProfile();
-        $this->assertInternalType('array', $profile->getCodePages());
+        $this->assertIsArray($profile->getCodePages());
     }
 
     public function testSetInvalidFont()
     {
         $model = new Model('TM-T81');
         $profile = $model->getProfile();
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $profile->setFont(['name' => 'Font D']);
     }
 
@@ -112,7 +112,7 @@ class EpsonTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidFontCapabilities()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         new Model([
             'profile' => 'epson',
             'codepage' => 'UTF-8',

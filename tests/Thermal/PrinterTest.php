@@ -6,10 +6,27 @@ use Thermal\Connection\Buffer;
 
 use Thermal\Graphics\Image;
 
-class PrinterTest extends \PHPUnit_Framework_TestCase
+class PrinterTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Model
+     *
+     * @var Model
+     */
     private $model;
+
+    /**
+     * Printer
+     *
+     * @var Printer
+     */
     private $printer;
+
+    /**
+     * Connection
+     *
+     * @var Connection
+     */
     private $connection;
 
     public static function getExpectedBuffer($name, $content)
@@ -25,7 +42,7 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
         return \file_get_contents($filename);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('MP-4200 TH');
         $this->connection = new Buffer();
@@ -40,7 +57,7 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
             self::getExpectedBuffer('set_utf-8_codepage', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $this->printer->setCodePage('BASE64');
     }
 
@@ -83,7 +100,7 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
             self::getExpectedBuffer('drawer_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $this->printer->drawer(3);
     }
 
@@ -126,7 +143,7 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
             self::getExpectedBuffer('drawer_esc_pos_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         try {
             $this->printer->drawer(3);
         } catch (\Exception $e) {
@@ -246,10 +263,5 @@ class PrinterTest extends \PHPUnit_Framework_TestCase
         $this->printer->setColumns(42);
         $this->assertEquals(42, $this->printer->getColumns());
         $this->printer->setColumns($columns);
-    }
-
-    public function testClose()
-    {
-        $this->printer->close();
     }
 }

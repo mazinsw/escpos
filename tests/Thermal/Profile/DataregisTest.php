@@ -6,7 +6,7 @@ use Thermal\Model;
 use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
 
-class DataregisTest extends \PHPUnit_Framework_TestCase
+class DataregisTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -18,7 +18,7 @@ class DataregisTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('DT200');
         $this->connection = new Buffer();

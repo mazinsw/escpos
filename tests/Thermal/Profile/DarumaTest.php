@@ -7,7 +7,7 @@ use Thermal\PrinterTest;
 use Thermal\Connection\Buffer;
 use Thermal\Graphics\Image;
 
-class DarumaTest extends \PHPUnit_Framework_TestCase
+class DarumaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Thermal\Model
@@ -19,7 +19,7 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
      */
     private $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->model = new Model('DR700');
         $this->connection = new Buffer();
@@ -35,7 +35,7 @@ class DarumaTest extends \PHPUnit_Framework_TestCase
             PrinterTest::getExpectedBuffer('drawer_DR700', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $profile->drawer(Printer::DRAWER_2, 48, 96);
     }
 

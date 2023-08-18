@@ -5,7 +5,7 @@ namespace Thermal\Graphics\Filter;
 use Thermal\PrinterTest;
 use Thermal\Graphics\ImageTest;
 
-class ThresholdTest extends \PHPUnit_Framework_TestCase
+class ThresholdTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {
