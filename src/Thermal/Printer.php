@@ -21,6 +21,11 @@ class Printer
     const DRAWER_1 = 0;
     const DRAWER_2 = 1;
 
+    const BARCODE_UPC_A  = 0;
+    const BARCODE_UPC_E  = 1;
+    const BARCODE_EAN13  = 2;
+    const BARCODE_EAN8   = 3;
+
     /**
      * Model
      *
@@ -80,6 +85,12 @@ class Printer
     public function qrcode($data, $size = null)
     {
         $this->model->getProfile()->qrcode($data, $size);
+        return $this;
+    }
+
+    public function barcode($data, $format = self::BARCODE_EAN13)
+    {
+        $this->model->getProfile()->barcode($data, $format);
         return $this;
     }
 

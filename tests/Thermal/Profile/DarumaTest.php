@@ -95,6 +95,17 @@ class DarumaTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testBarcode()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->barcode('0123456789101', Printer::BARCODE_EAN13);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('barcode_daruma', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
     public function testQrcode()
     {
         $this->connection->clear();

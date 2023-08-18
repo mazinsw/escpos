@@ -46,6 +46,13 @@ test:
 		-w /app \
 		grandchef/php:8.2.2-fpm-dev php ./vendor/bin/phpunit --configuration . --no-coverage --colors=always
 
+cover:
+	@docker run --rm -it \
+		-u $(CURRENT_UID) \
+		-v $(shell pwd):/app \
+		-w /app \
+		grandchef/php:8.2.2-fpm-dev bash -c "XDEBUG_MODE=coverage php ./vendor/bin/phpunit --configuration .  --coverage-html storage/coverage --colors=always"
+
 analisys:
 	@docker run --rm -it \
 		-u $(CURRENT_UID) \

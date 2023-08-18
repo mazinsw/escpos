@@ -12,6 +12,18 @@ class Diebold extends Elgin
         return $this;
     }
 
+    public function barcode($data, $format)
+    {
+        $tipo = [
+            Printer::BARCODE_UPC_A => '7',
+            Printer::BARCODE_UPC_E => '8',
+            Printer::BARCODE_EAN13 => '0',
+            Printer::BARCODE_EAN8  => '4',
+        ];
+        $new_format = $tipo[$format];
+        $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . $data);
+    }
+
     /**
      * @param int $number drawer id
      * @param int $on_time time in milliseconds that activate the drawer

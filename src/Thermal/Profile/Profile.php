@@ -307,6 +307,15 @@ abstract class Profile
     }
 
     /**
+     * Draw Bar Code 2D
+     *
+     * @param string $data data to encode
+     * @param int $format size of QR Code
+     * @return void
+     */
+    abstract public function barcode($data, $format);
+
+    /**
      * Draw QR Code
      *
      * @param string $data data to encode

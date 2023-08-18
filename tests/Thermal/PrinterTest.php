@@ -2,9 +2,8 @@
 
 namespace Thermal;
 
-use Thermal\Connection\Buffer;
-
 use Thermal\Graphics\Image;
+use Thermal\Connection\Buffer;
 
 class PrinterTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +24,7 @@ class PrinterTest extends \PHPUnit\Framework\TestCase
     /**
      * Connection
      *
-     * @var Connection
+     * @var Buffer
      */
     private $connection;
 
@@ -115,6 +114,19 @@ class PrinterTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             self::getExpectedBuffer('draw_MP-4200_TH', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
+    public function testBarcode()
+    {
+        $this->connection->clear();
+        $this->printer->setAlignment(Printer::ALIGN_CENTER);
+        $this->printer->barcode('0123456789101');
+        $this->printer->setAlignment(Printer::ALIGN_LEFT);
+
+        $this->assertEquals(
+            self::getExpectedBuffer('barcode_MP-4200_TH', $this->connection->getBuffer()),
             $this->connection->getBuffer()
         );
     }
@@ -263,5 +275,12 @@ class PrinterTest extends \PHPUnit\Framework\TestCase
         $this->printer->setColumns(42);
         $this->assertEquals(42, $this->printer->getColumns());
         $this->printer->setColumns($columns);
+    }
+
+    public function testClose()
+    {
+        $this->printer->close();
+        $this->connection->open();
+        $this->assertNull($this->connection->getBuffer());
     }
 }

@@ -37,6 +37,17 @@ class DieboldTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testBarcode()
+    {
+        $this->connection->clear();
+        $profile = $this->model->getProfile();
+        $profile->barcode('0123456789101', Printer::BARCODE_EAN13);
+        $this->assertEquals(
+            PrinterTest::getExpectedBuffer('barcode_IM453_Diebold', $this->connection->getBuffer()),
+            $this->connection->getBuffer()
+        );
+    }
+
     public function testDrawer()
     {
         $this->connection->clear();

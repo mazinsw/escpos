@@ -86,12 +86,24 @@ class Daruma extends Epson
         return $this;
     }
 
+    public function barcode($data, $format)
+    {
+        $tipo = [
+            Printer::BARCODE_UPC_A => 8,
+            Printer::BARCODE_UPC_E => 8,
+            Printer::BARCODE_EAN13 => 1,
+            Printer::BARCODE_EAN8  => 2,
+        ];
+        $new_format = $tipo[$format];
+        $this->getConnection()->write("\eb" . chr($new_format) . chr(2) . chr(50) . chr(0) . $data . chr(0));
+    }
+
     public function qrcode($data, $size)
     {
         $len = strlen($data) + 2;
         $pL = $len & 0xFF;
         $pH = ($len >> 8) & 0xFF;
-        
+
         $error = 'M';
         $size = min(7, max(3, $size ?: 4));
         $this->getConnection()->write("\e\x81");
