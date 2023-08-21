@@ -24,9 +24,9 @@ class Diebold extends Elgin
         $new_format = $tipo[$format];
         if ($format === Printer::BARCODE_CODE128) {
             $len = strlen($data);
-            $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . chr($len) . $data);
+            $this->getConnection()->write("\e|" . $new_format . chr(90) . chr(0b00010010) . chr(0) . chr($len) . $data);
         } else {
-            $this->getConnection()->write("\e|" . $new_format . chr(50) . chr(0b00010010) . chr(0) . $data);
+            $this->getConnection()->write("\e|" . $new_format . chr(90) . chr(0b00010010) . chr(0) . $data);
         }
     }
 

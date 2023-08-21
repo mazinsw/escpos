@@ -120,6 +120,12 @@ class Epson extends Profile
 
     public function barcode($data, $format)
     {
+        $width = 2;
+        $height = 90;
+        $showDigits = 0; // 0 => false, 2 => true
+        $this->getConnection()->write("\x1dw" . chr($width));
+        $this->getConnection()->write("\x1dh" . chr($height));
+        $this->getConnection()->write("\x1dH" . chr($showDigits));
         if ($format === Printer::BARCODE_CODE128) {
             $len = strlen($data);
             $this->getConnection()->write("\x1dk" . chr($format) . chr($len) . $data);
