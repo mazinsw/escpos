@@ -68,7 +68,7 @@ class Bematech extends Epson
         $len = strlen($data) + 3;
         $pL = $len & 0xFF;
         $pH = ($len >> 8) & 0xFF;
-        
+
         $error = 2; // N1 Error correction level 0 - L, 1 - M, 2 - Q, 3 - H
         $size = min(11, max(1, $size ?: 4)) * 2; // N2 - MSB; 0 = default = 4
         $version = 0; // N3 - Version QRCode
@@ -77,8 +77,6 @@ class Bematech extends Epson
         $this->getConnection()->write(chr($error) . chr($size) . chr($version) . chr($encoding));
         $this->getConnection()->write(chr($pL) . chr($pH)); // N5 e N6 - Length
         $this->getConnection()->write($data); // Data
-        $this->getConnection()->write("\x00");
-        $this->feed(1);
     }
 
     protected function fontChanged($new_font, $old_font)
